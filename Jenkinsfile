@@ -33,9 +33,9 @@ pipeline{
 
 		stage("4. Packaging"){
 			steps{
-				echo "Started Checking Code Coverage"
+				echo "Started Packaging"
 				sh 'mvn package'
-				echo "Ended Checking Code Coverage"
+				echo "Ended Packaging"
 			}
 		}
 
@@ -43,11 +43,13 @@ pipeline{
            steps {
                script {
                  def customImage = docker.build("techeduhub/devopstest", ".")
+                 echo "Image Build successful"
                  docker.withRegistry("https://registry-1.docker.io/v2/", "MyDockerHub") {
                  	customImage.push("1.0.0")
                  }
+                  echo "Image Pushed successful"
            	  }
-            }
+           }
         }
 	}
 }
