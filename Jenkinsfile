@@ -1,7 +1,13 @@
 pipeline{
 	agent any
+
+	tools {
+        maven 'MyMaven'
+        jdk 'MyJDK'
+    }
+
 	stages{
-		stage("Code Checkout"){
+		stage("1. Code Checkout"){
 			steps{
 				echo "Started Code Checkout"
 				git branch:'master', url: 'https://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@github.com/TechHubRepo/devopstest.git'
@@ -9,7 +15,7 @@ pipeline{
 			}
 		}
 
-		stage("Compiling"){
+		stage("2. Compiling"){
 			steps{
 				echo "Started Compiling"
 				sh 'mvn clean compile'
@@ -17,7 +23,7 @@ pipeline{
 			}
 		}
 
-		stage("Unit Testing"){
+		stage("3. Unit Testing"){
 			steps{
 				echo "Started Running JUnit"
 				sh 'mvn test'
@@ -25,12 +31,23 @@ pipeline{
 			}
 		}
 
-		stage("Packaging"){
+		stage("4. Packaging"){
 			steps{
 				echo "Started Checking Code Coverage"
 				sh 'mvn package'
 				echo "Ended Checking Code Coverage"
 			}
 		}
+
+        stage("5. Building and Pushing Docker image") {
+           steps {
+               script {
+                 def customImage = docker.build("techeduhub/devopstest", ".")
+                 docker.withRegistry("https://registry-1.docker.io/v2/", "MyDockerHub") {
+                 	customImage.push("1.0.0")
+                 }
+           	  }
+            }
+        }
 	}
 }
