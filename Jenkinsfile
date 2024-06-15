@@ -43,7 +43,6 @@ pipeline{
            steps {
                script {
                  def customImage = docker.build("techeduhub/devopstest", ".")
-                 echo "Image Build successful"
                  docker.withRegistry("https://registry-1.docker.io/v2/", "MyDockerHub") {
                  	customImage.push("1.0.0")
                  }
