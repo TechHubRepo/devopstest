@@ -42,11 +42,10 @@ pipeline{
         stage("5. Building and Pushing Docker image") {
            steps {
                script {
-                 def customImage = docker.build("techeduhub/devopstest", ".")
+                 def customImage = docker.build("techeduhub/devopstest:1.0.0", ".")
                  docker.withRegistry("https://registry-1.docker.io/v2/", "MyDockerHub") {
                  	customImage.push("1.0.0")
                  }
-                  echo "Image Pushed successful"
            	  }
            }
         }
