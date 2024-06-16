@@ -43,8 +43,11 @@ pipeline{
            steps {
                script {
                  def customImage = docker.build("techeduhub/devopstest:1.0.0", ".")
-                 docker.withRegistry("", "MyDockerHub") {
-                 	customImage.push("1.0.0")
+                 docker.withCredentials([usernamePassword(credentialsId: 'MyDockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                        sh "echo ${env.dockerHubPassword} > /tmp/dockerpassword.txt"
+                        sh "cat /tmp/dockerpassword.txt | docker login --username techeduhub --password-stdin"
+                        sh "docker push techeduhub/devopstest:1.0.0"
+                        sh "/tmp/dockerpassword.txt"
                  }
            	  }
            }
