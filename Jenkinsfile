@@ -47,7 +47,7 @@ pipeline{
                         sh "echo ${env.dockerHubPassword} > /tmp/dockerpassword.txt"
                         sh "cat /tmp/dockerpassword.txt | docker login --username ${env.dockerHubUser} --password-stdin"
                         sh "docker push techeduhub/devopstest:1.0.0"
-                        sh "/tmp/dockerpassword.txt"
+                        sh "rm /tmp/dockerpassword.txt"
                  }
            	  }
            }
