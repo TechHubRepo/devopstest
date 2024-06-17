@@ -39,19 +39,22 @@ pipeline{
 			}
 		}
 
-        stage("5. Building and Pushing Docker image") {
+        stage("5. Building Docker image") {
            steps {
-               script {
-                 def customImage = docker.build("techeduhub/devopstest:1.0.0", ".")
-                 sh "docker push techeduhub/devopstest:1.0.0"
-//                  withCredentials([usernamePassword(credentialsId: 'MyDockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-//                         sh "echo ${env.dockerHubPassword} > /tmp/dockerpassword.txt"
-//                         sh "cat /tmp/dockerpassword.txt | docker login --username ${env.dockerHubUser} --password-stdin"
-//                         sh "docker push techeduhub/devopstest:1.0.0"
-//                         sh "rm /tmp/dockerpassword.txt"
-//                  }
-           	  }
+                echo "Started Building Docker image"
+                script {
+                    def customImage = docker.build("techeduhub/devopstest:1.0.0", ".")
+           	    }
+           	    echo "Ended Building Docker image"
            }
+        }
+
+        stage("6. Pushing Docker Image to Registry"){
+        	steps{
+        		echo "Started Pushing"
+        		sh 'docker push techeduhub/devopstest:1.0.0'
+        	    echo "Ended Pushing"
+            }
         }
 	}
 }
