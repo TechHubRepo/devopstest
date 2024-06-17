@@ -1,6 +1,10 @@
 pipeline{
 	agent any
 
+    environment {
+        APP_VERSION = '1.0.0'
+    }
+
 	tools {
         maven 'MyMaven'
         jdk 'MyJDK'
@@ -9,51 +13,52 @@ pipeline{
 	stages{
 		stage("1. Code Checkout"){
 			steps{
-				echo "Started Code Checkout"
+				echo "Checking out the code"
 				git branch:'master', url: 'https://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@github.com/TechHubRepo/devopstest.git'
-				echo "Ended Code Checkout"
+				echo "Code checkout completed"
 			}
 		}
 
 		stage("2. Compiling"){
 			steps{
-				echo "Started Compiling"
+				echo "Compiling the code"
 				sh 'mvn clean compile'
-				echo "Ended Compiling"
+				echo "Code compilation completed"
 			}
 		}
 
 		stage("3. Unit Testing"){
 			steps{
-				echo "Started Running JUnit"
+				echo "Running JUnit tests"
 				sh 'mvn test'
-			    echo "Ended Running JUnit"
+			    echo "JUnit test completed"
 			}
 		}
 
 		stage("4. Packaging"){
 			steps{
-				echo "Started Packaging"
+				echo "Packaging the code"
 				sh 'mvn package'
-				echo "Ended Packaging"
+				echo "Packaging completed"
 			}
 		}
 
         stage("5. Building Docker image") {
            steps {
-                echo "Started Building Docker image"
+                echo "Building Docker image"
                 script {
-                    def customImage = docker.build("techeduhub/devopstest:1.0.0", ".")
+                    def customImage = docker.build("techeduhub/devopstest:${APP_VERSION}", ".")
            	    }
-           	    echo "Ended Building Docker image"
+           	    echo "Docker image built successfully"
            }
         }
 
         stage("6. Pushing Docker Image to Registry"){
         	steps{
-        		echo "Started Pushing"
-        		sh 'docker push techeduhub/devopstest:1.0.0'
-        	    echo "Ended Pushing"
+        		echo "Pushing the image to docker hub"
+        		sh "cat /.dockercfg/dockerhubpassword.txt | docker login --username techeduhub --password-stdin"
+        		sh "docker push techeduhub/devopstest:${APP_VERSION}"
+        	    echo "Image pushed to docker hub"
             }
         }
 	}
