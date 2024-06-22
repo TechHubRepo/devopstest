@@ -4,7 +4,6 @@ agent any
         stage('Deploying the Application') {
             steps {
                 sh 'pwd'
-                sh 'cp -R devopstest-chart .'
 	            sh 'ls -ltr'
                 sh 'pwd'
                 sh '/usr/local/bin/helm upgrade --install devopstest-deployment devopstest-chart'
