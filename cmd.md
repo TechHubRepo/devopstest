@@ -11,5 +11,5 @@
 
 # Copy role to Kubernetes management host
     $ export K8S_MGMT_HOST='13.233.149.189'
-    $ scp -r -i ${AWS_KEY} app-chart ubuntu@${K8S_MGMT_HOST}:/home/ubuntu/app-chart
+    $ scp -r -i ${AWS_KEY} devopstest-chart ubuntu@${K8S_MGMT_HOST}:/home/ubuntu/devopstest-chart
 
