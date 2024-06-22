@@ -1,3 +1,7 @@
-DevOpsTest is Ready to Use
-DevOpsTest is Ready to Use
-DevOpsTest is Ready to Use
+---------------------------------------------
+  DevOpsTest Deployments Successfully Done
+---------------------------------------------
+     Access the Application as following
+        http://[NODE_PUBLIC_IP]:32000
+
+        ******* Happy Helming *******
