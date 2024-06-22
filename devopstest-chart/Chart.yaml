@@ -1,0 +1,6 @@
+apiVersion: v2
+name: devopstest-chart
+description: A Helm chart for DevOpsTest Kubernetes application
+type: application
+version: 0.1.0
+appVersion: "latest"
