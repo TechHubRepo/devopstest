@@ -15,7 +15,7 @@ pipeline{
 		stage("1. Code Checkout"){
 			steps{
 				echo "Checking Out The Code"
-				git branch:'master', url: 'https://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@github.com/TechHubRepo/devopstest.git'
+				git branch:'master', url: 'https://[ACCESS_TOKEN]@github.com/TechHubRepo/devopstest.git'
 				echo "Code Checkout Completed"
 			}
 		}
